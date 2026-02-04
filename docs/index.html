@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dota2 Voice Chat</title>
+  <meta name="description" content="Chat and get Dota 2 hero voice lines back." />
+  <link rel="preconnect" href="https://static.wikia.nocookie.net" crossorigin>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <div class="logo">DV</div>
+        <div>
+          <div class="title">Dota2 Voice Chat</div>
+          <div class="subtitle">Type anything. It replies with a random-ish matching hero voice line.</div>
+        </div>
+      </div>
+      <div class="right">
+        <button id="btnEnableAudio" class="btn" title="Enable audio autoplay">Enable Audio</button>
+        <button id="btnStop" class="btn ghost" title="Stop audio">Stop</button>
+        <button id="btnClear" class="btn ghost" title="Clear chat">Clear</button>
+      </div>
+    </header>
+
+    <main class="chat" id="chat"></main>
+
+    <footer class="composer">
+      <form id="form" autocomplete="off">
+        <input id="input" placeholder="Say something…" maxlength="300" />
+        <button class="btn primary" id="send" type="submit">Send</button>
+      </form>
+      <div class="hint">
+        Data source: <code>dota2-voice-lines</code>. Local matching (no server).
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Minimal non-module smoke test to ensure new deployments + click wiring are live.
+    (function(){
+      const v = 'smoketest-1';
+      window.__VOICE_APP_BUILD__ = v;
+      window.addEventListener('DOMContentLoaded', () => {
+        const b = document.getElementById('btnEnableAudio');
+        if (b) {
+          b.dataset.build = v;
+          b.addEventListener('click', () => {
+            // If you see the button text change, the page + JS are definitely current.
+            if (!b.dataset.clicked) {
+              b.dataset.clicked = '1';
+              b.textContent = 'Enable Audio (clicked)';
+            }
+          });
+        }
+      });
+    })();
+  </script>
+  <script type="module" src="./app.js?v=6"></script>
+</body>
+</html>
